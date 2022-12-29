@@ -44,6 +44,7 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
             .number("(dd)(dd)(dddd)")            // latitude
             .number("(ddd)(dd)(dddd)")           // longitude
             .number("(x{8})")                    // status
+            .number("(x{8})")                    // ig      
             .number("(x{4})")                    // speed
             .number("(x{6})")                    // odometer
             .number("(xxx)")                     // course
@@ -80,6 +81,22 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLongitude);
 
         position.set(Position.KEY_STATUS, parser.nextHexLong());
+        
+
+        String kontak = parser.nextHexLong();
+        
+        
+
+            if (kontak.equals("1")) {
+                position.set(Position.KEY_IGNITION, true);
+            } else (kontak.equals("9")) {
+                position.set(Position.KEY_IGNITION, false);
+            } 
+
+        
+        position.set(Position.KEY_STATUS, parser.nextHexLong());
+        
+        
         position.setSpeed(parser.nextHexInt() * 0.01);
         position.set(Position.KEY_ODOMETER, parser.nextHexInt() * 1852.0 / 16);
         position.setCourse(parser.nextHexInt());
