@@ -83,17 +83,20 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.set(Position.KEY_STATUS, parser.nextHexLong());
         
 
-        String kontak = parser.nextHexLong();
         
+        int ignition = parser.nextHexLong();
         
 
-            if (kontak.equals("1")) {
-                position.set(Position.KEY_IGNITION, true);
-            } else (kontak.equals("9")) {
-                position.set(Position.KEY_IGNITION, false);
-            } 
-
+                
+                if (ignition == 9) {
+                    position.set(Position.KEY_IGNITION, false);
+                }
+                if (ignition == 1) {
+                    position.set(Position.KEY_IGNITION, true);
+                }
         
+
+
         position.set(Position.KEY_STATUS, parser.nextHexLong());
         
         
