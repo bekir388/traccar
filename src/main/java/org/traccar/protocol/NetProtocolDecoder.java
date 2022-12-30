@@ -84,17 +84,12 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         
 
         
-        int ignition = parser.nextHexLong();
-        
-
-                
-                if (ignition == 9) {
-                    position.set(Position.KEY_IGNITION, false);
-                }
-                if (ignition == 1) {
-                    position.set(Position.KEY_IGNITION, true);
-                }
-        
+        int ignition = parser.nextHexInt();
+            if (BitUtil.check(ignition, 9)) {
+                position.set(Position.KEY_IGNITION, false);
+            } else if (BitUtil.check(ignition, 1)) {
+                position.set(Position.KEY_IGNITION, true);
+            }
 
 
         position.set(Position.KEY_STATUS, parser.nextHexLong());
