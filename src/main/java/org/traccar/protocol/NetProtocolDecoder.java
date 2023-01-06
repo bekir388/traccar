@@ -44,7 +44,6 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
             .number("(dd)(dd)(dddd)")            // latitude
             .number("(ddd)(dd)(dddd)")           // longitude
             .number("(x{8})")                    // status
-            .number("(x{8})")                    // ig      
             .number("(x{4})")                    // speed
             .number("(x{6})")                    // odometer
             .number("(xxx)")                     // course
@@ -80,12 +79,13 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.setLatitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLatitude);
         position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLongitude);
 
-        position.set(Position.KEY_STATUS, parser.nextHexLong());
-        
 
-        
+        int ignition = parser.nextHexLong();
+
+        position.set(Position.KEY_STATUS, BitUtil.check(ignition));
+    
         int ignition = parser.nextHexInt();
-            if (BitUtil.check(ignition, 9)) {
+            if (BitUtil.check(ignition, > 1)) {
                 position.set(Position.KEY_IGNITION, false);
             } else if (BitUtil.check(ignition, 1)) {
                 position.set(Position.KEY_IGNITION, true);
