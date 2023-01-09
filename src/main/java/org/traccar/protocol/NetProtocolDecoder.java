@@ -79,22 +79,7 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.setLatitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLatitude);
         position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLongitude);
 
-
-        int ignition = parser.nextHexLong();
-
-        position.set(Position.KEY_STATUS, BitUtil.check(ignition));
-    
-        
-            if (BitUtil.check(ignition, 9)) {
-                position.set(Position.KEY_IGNITION, false);
-            } else if (BitUtil.check(ignition, 1)) {
-                position.set(Position.KEY_IGNITION, true);
-            }
-
-
-        position.set(Position.KEY_STATUS, parser.nextHexLong());
-        
-        
+        position.set(Position.KEY_IGNITION, parser.nextHexLong());
         position.setSpeed(parser.nextHexInt() * 0.01);
         position.set(Position.KEY_ODOMETER, parser.nextHexInt() * 1852.0 / 16);
         position.setCourse(parser.nextHexInt());
