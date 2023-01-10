@@ -83,9 +83,18 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
 
         position.set(Position.KEY_STATUS, status);
 
+
+
+        position.setSpeed(parser.nextHexInt() * 0.01);
+        position.set(Position.KEY_ODOMETER, parser.nextHexInt() * 1852.0 / 16);
+        position.setCourse(parser.nextHexInt());
+
+        int alarm = parser.nextHexInt(); // alarm
+
         if (status == 1) {
         
         position.set(Position.KEY_IGNITION, true);
+        position.set(Position.KEY_ALARM, alarm);
         
         }
 
@@ -94,13 +103,6 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.set(Position.KEY_IGNITION, false);
         
         }
-
-
-        position.setSpeed(parser.nextHexInt() * 0.01);
-        position.set(Position.KEY_ODOMETER, parser.nextHexInt() * 1852.0 / 16);
-        position.setCourse(parser.nextHexInt());
-
-        parser.nextHexInt(); // alarm
 
         return position;
     }
