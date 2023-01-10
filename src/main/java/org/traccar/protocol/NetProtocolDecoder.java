@@ -79,7 +79,7 @@ public class NetProtocolDecoder extends BaseProtocolDecoder {
         position.setLatitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLatitude);
         position.setLongitude(parser.nextCoordinate(Parser.CoordinateFormat.DEG_MIN_MIN) * hemisphereLongitude);
 
-        int status = parser.nextHexLong();
+        int status = parser.nextHexInt();
 
         position.set(Position.KEY_STATUS, status);
 
